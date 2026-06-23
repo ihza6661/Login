@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#EFEFEF"
+    tools:context=".MahasiswaActivity">
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Cari Nama atau NIM..." />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMahasiswa"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="4dp"
+        android:scrollbars="vertical" />
+
+    <RelativeLayout
+        android:id="@+id/layoutBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#212529"
+        android:paddingHorizontal="16dp">
+
+        <TextView
+            android:id="@+id/tvTotalMahasiswa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Total : 0"
+            android:textColor="#8E949A"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnRefresh"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/stat_notify_sync"
+                android:tint="#FFFFFF"
+                android:scaleType="fitCenter"
+                android:contentDescription="Refresh" />
+
+            <ImageButton
+                android:id="@+id/btnTambah"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="16dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_add"
+                android:tint="#FFFFFF"
+                android:scaleType="fitCenter"
+                android:contentDescription="Tambah" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

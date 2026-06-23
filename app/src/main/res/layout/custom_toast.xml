@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/custom_toast_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_toast"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/logostmik"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="Logo Kampus" />
+
+    <TextView
+        android:id="@+id/tvToastText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selamat Datang"
+        android:textColor="#000000"
+        android:textSize="15sp"/>
+
+</LinearLayout>

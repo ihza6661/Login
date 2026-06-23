@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_widget"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/widgetCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buka Aplikasi"
+        android:textColor="#A5D6A7"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/widgetTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="--"
+        android:textColor="#FFFFFF"
+        android:textSize="56sp"
+        android:textStyle="normal" />
+
+    <ImageView
+        android:id="@+id/widgetIcon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/widgetCity"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/widgetDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/widgetIcon"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@id/widgetIcon"
+        android:text="Memuat..."
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/widgetHighLow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/widgetIcon"
+        android:layout_marginTop="8dp"
+        android:text="--° / --°"
+        android:textColor="#B0BEC5"
+        android:textSize="14sp" />
+
+</RelativeLayout>
