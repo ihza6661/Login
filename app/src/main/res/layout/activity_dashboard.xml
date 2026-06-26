@@ -29,7 +29,7 @@
                 android:id="@+id/tvWelcomeDashboard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Selamat Datang"
+                android:text="@string/welcome_dashboard"
                 android:textColor="#121212"
                 android:textSize="18sp"
                 android:gravity="center"
@@ -47,13 +47,14 @@
             android:layout_marginBottom="32dp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            tools:ignore="UseCompoundDrawables">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Forex"
+                android:text="@string/menu_forex"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -63,7 +64,7 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:src="@drawable/img_dollar_128"
-                android:contentDescription="Icon Forex" />
+                android:contentDescription="@string/desc_icon_forex" />
         </LinearLayout>
 
         <LinearLayout
@@ -76,13 +77,14 @@
             android:layout_marginBottom="32dp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            tools:ignore="UseCompoundDrawables">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Master Mahasiswa"
+                android:text="@string/menu_mahasiswa"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -92,7 +94,7 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:src="@drawable/student"
-                android:contentDescription="Icon Mahasiswa" />
+                android:contentDescription="@string/desc_icon_mahasiswa" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,21 +104,23 @@
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:padding="16dp"
-            android:layout_marginBottom="32dp" android:clickable="true"
+            android:layout_marginBottom="32dp"
+            android:clickable="true"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            tools:ignore="UseCompoundDrawables">
 
             <ImageView
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:src="@drawable/img_weather_lightning_128"
-                android:contentDescription="Icon Cuaca" />
+                android:contentDescription="@string/desc_icon_cuaca" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Cuaca"
+                android:text="@string/menu_cuaca"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -132,13 +136,15 @@
             android:padding="16dp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:foreground="?android:attr/selectableItemBackground"
+            android:visibility="gone"
+            tools:ignore="UseCompoundDrawables">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="PPV Boxing"
+                android:text="@string/menu_ppv"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -148,7 +154,7 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:src="@drawable/payviewlogo"
-                android:contentDescription="Icon PPV" />
+                android:contentDescription="@string/desc_icon_ppv" />
         </LinearLayout>
 
     </LinearLayout>

@@ -14,26 +14,28 @@
         android:orientation="vertical"
         android:padding="32dp"
         android:gravity="center_horizontal"
-        android:layout_centerInParent="true">
+        android:layout_centerInParent="true"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:id="@+id/imgLogo"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:src="@drawable/logostmik"
+            android:src="@drawable/ghost_stab"
             android:layout_marginBottom="40dp"
-            android:contentDescription="Logo STMIK" />
+            android:contentDescription="@string/desc_logo_app" />
 
         <EditText
             android:id="@+id/etId"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_input"
-            android:hint="ID"
+            android:hint="@string/hint_id"
             android:textColor="#000000"
             android:textColorHint="#888888"
             android:paddingHorizontal="16dp"
             android:inputType="text"
+            android:importantForAutofill="no"
             android:layout_marginBottom="16dp"/>
 
         <EditText
@@ -41,11 +43,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_input"
-            android:hint="Password"
+            android:hint="@string/hint_password"
             android:textColor="#000000"
             android:textColorHint="#888888"
             android:paddingHorizontal="16dp"
             android:inputType="textPassword"
+            android:importantForAutofill="no"
             android:layout_marginBottom="24dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -53,7 +56,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/bg_button_purple"
-            android:text="Login"
+            android:text="@string/btn_login"
             android:textColor="#FFFFFF"
             android:textAllCaps="false"
             android:textStyle="bold"

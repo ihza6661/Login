@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#121212">
+    android:background="@drawable/bg_weather">
 
     <EditText
         android:id="@+id/etKota"
@@ -25,8 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:text="TAMPILKAN"
-        android:backgroundTint="#FFC107"
-        android:textColor="#000000"
+        android:backgroundTint="#03A9F4"
+        android:textColor="#FFFFFF"
         app:cornerRadius="0dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
@@ -38,16 +38,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:background="#FFC107"
+        android:padding="12dp"
+        android:background="#1565C0"
         app:layout_constraintTop_toBottomOf="@+id/etKota">
 
         <TextView
             android:id="@+id/tvInfoKota"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
+            android:textColor="#FFFFFF"
             android:textStyle="bold"
+            android:textSize="16sp"
             android:gravity="center" />
     </LinearLayout>
 
@@ -70,10 +71,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Total Record : 0"
-        android:background="#FFC107"
+        android:background="#1565C0"
         android:padding="10dp"
         android:textStyle="bold"
         android:textColor="#FFFFFF"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <WebView

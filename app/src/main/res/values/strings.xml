@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Login</string>
+    <string name="welcome_dashboard">Selamat Datang</string>
+    <string name="welcome_user">Selamat Datang, %1$s</string>
+    <string name="menu_forex">Forex</string>
+    <string name="menu_mahasiswa">Master Mahasiswa</string>
+    <string name="menu_cuaca">Cuaca</string>
+    <string name="menu_ppv">PPV Boxing</string>
+    <string name="desc_icon_forex">Icon Forex</string>
+    <string name="desc_icon_mahasiswa">Icon Mahasiswa</string>
+    <string name="desc_icon_cuaca">Icon Cuaca</string>
+    <string name="desc_icon_ppv">Icon PPV</string>
+    <string name="desc_logo_app">Logo App</string>
+    <string name="hint_id">ID</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_login">Login</string>
 </resources>

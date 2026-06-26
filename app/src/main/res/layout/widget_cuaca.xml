@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Buka Aplikasi"
-        android:textColor="#A5D6A7"
+        android:textColor="#B3E5FC"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
         android:layout_below="@id/widgetIcon"
         android:layout_marginTop="8dp"
         android:text="--° / --°"
-        android:textColor="#B0BEC5"
+        android:textColor="#CFD8DC"
         android:textSize="14sp" />
 
 </RelativeLayout>
