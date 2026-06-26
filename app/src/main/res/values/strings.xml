@@ -14,4 +14,13 @@
     <string name="hint_id">ID</string>
     <string name="hint_password">Password</string>
     <string name="btn_login">Login</string>
+    <string name="login_empty">ID dan Password tidak boleh kosong!</string>
+    <string name="login_failed">Username atau Password salah!</string>
+    <string name="server_error">Format data server salah!</string>
+    <string name="connection_failed">Koneksi ke server gagal: %1$s</string>
+    <string name="weather_info_format">KOTA: %1$s\nMATAHARI TERBIT: %2$s (LOKAL)\nMATAHARI TERBENAM: %3$s (LOKAL)</string>
+    <string name="forex_sync_failed">Gagal sinkronisasi data.</string>
+    <string name="forex_date_format">Tanggal dan Waktu: %1$s</string>
+    <string name="total_count">Total : %1$d</string>
+    <string name="desc_add_mahasiswa">Tambah Mahasiswa</string>
 </resources>

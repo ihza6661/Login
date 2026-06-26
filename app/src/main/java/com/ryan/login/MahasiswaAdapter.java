@@ -4,18 +4,23 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
+import java.util.List;
 
-public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.MahasiswaViewHolder> {
+public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.MahasiswaViewHolder> implements Filterable {
 
     private ArrayList<MahasiswaModel> mahasiswaList;
+    private ArrayList<MahasiswaModel> mahasiswaListFull;
 
     public MahasiswaAdapter(ArrayList<MahasiswaModel> mahasiswaList) {
         this.mahasiswaList = mahasiswaList;
+        this.mahasiswaListFull = new ArrayList<>(mahasiswaList);
     }
 
     @NonNull
@@ -29,32 +34,70 @@ public class MahasiswaAdapter extends RecyclerView.Adapter<MahasiswaAdapter.Maha
     public void onBindViewHolder(@NonNull MahasiswaViewHolder holder, int position) {
         MahasiswaModel mhs = mahasiswaList.get(position);
 
-        holder.tvNomor.setText((position + 1) + ".");
+        String nomorText = (position + 1) + ".";
+        holder.tvNomor.setText(nomorText);
         holder.tvNama.setText(mhs.getNama());
         holder.tvNim.setText(mhs.getNim());
         holder.tvGenderTeks.setText(mhs.getJenisKelamin());
         holder.tvBadgeJurusan.setText(mhs.getJurusan());
 
-        // Logika Warna Kotak Jurusan (TI = Biru, SI = Merah)
         if (mhs.getJurusan().equalsIgnoreCase("TI")) {
             holder.tvBadgeJurusan.setBackgroundColor(Color.parseColor("#0000FF"));
         } else {
             holder.tvBadgeJurusan.setBackgroundColor(Color.parseColor("#FF0000"));
         }
 
-        // MENGGUNAKAN GAMBAR ASLI: boy.png & girl.png
         if (mhs.getJenisKelamin().trim().equalsIgnoreCase("Laki-Laki")) {
             holder.imgGender.setImageResource(R.drawable.boy);
         } else if (mhs.getJenisKelamin().trim().equalsIgnoreCase("Perempuan")) {
             holder.imgGender.setImageResource(R.drawable.girl);
         } else {
-            holder.imgGender.setImageResource(R.drawable.student); // Cadangan jika ada data jender kosong
+            holder.imgGender.setImageResource(R.drawable.student);
         }
     }
 
     @Override
     public int getItemCount() {
         return mahasiswaList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                List<MahasiswaModel> filteredList = new ArrayList<>();
+                if (constraint == null || constraint.length() == 0) {
+                    filteredList.addAll(mahasiswaListFull);
+                } else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+                    for (MahasiswaModel item : mahasiswaListFull) {
+                        if (item.getNama().toLowerCase().contains(filterPattern) || 
+                            item.getNim().toLowerCase().contains(filterPattern)) {
+                            filteredList.add(item);
+                        }
+                    }
+                }
+                FilterResults results = new FilterResults();
+                results.values = filteredList;
+                return results;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mahasiswaList.clear();
+                mahasiswaList.addAll((List<MahasiswaModel>) results.values);
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    public void updateList(ArrayList<MahasiswaModel> newList) {
+        mahasiswaListFull = new ArrayList<>(newList);
+        mahasiswaList.clear();
+        mahasiswaList.addAll(newList);
+        notifyDataSetChanged();
     }
 
     public static class MahasiswaViewHolder extends RecyclerView.ViewHolder {

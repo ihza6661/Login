@@ -1,70 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#EFEFEF"
     tools:context=".MahasiswaActivity">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:queryHint="Cari Nama atau NIM..." />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMahasiswa"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="4dp"
-        android:scrollbars="vertical" />
-
-    <RelativeLayout
-        android:id="@+id/layoutBottomBar"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:background="#212529"
-        android:paddingHorizontal="16dp">
-
-        <TextView
-            android:id="@+id/tvTotalMahasiswa"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="Total : 0"
-            android:textColor="#8E949A"
-            android:textSize="14sp" />
+            app:queryHint="Cari Nama atau NIM..."
+            app:iconifiedByDefault="false" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-            <ImageButton
-                android:id="@+id/btnRefresh"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/stat_notify_sync"
-                android:tint="#FFFFFF"
-                android:scaleType="fitCenter"
-                android:contentDescription="Refresh" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMahasiswa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="4dp"
+                android:scrollbars="vertical" />
 
-            <ImageButton
-                android:id="@+id/btnTambah"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="16dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_add"
-                android:tint="#FFFFFF"
-                android:scaleType="fitCenter"
-                android:contentDescription="Tambah" />
-        </LinearLayout>
-    </RelativeLayout>
-</LinearLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutBottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#212529"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/tvTotalMahasiswa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/total_count"
+                android:textColor="#8E949A"
+                android:textSize="14sp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add"
+        app:tint="#FFFFFF"
+        android:contentDescription="@string/desc_add_mahasiswa" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

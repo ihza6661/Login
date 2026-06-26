@@ -1,8 +1,15 @@
 package com.ryan.login;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -33,7 +40,6 @@ import cz.msebera.android.httpclient.Header;
 public class CuacaActivity extends AppCompatActivity {
     private EditText etKota;
     private Button btnTampilkan, btnBack;
-    private LinearLayout headerLayout;
     private TextView tvInfoKota, tvTotalRecord;
     private RecyclerView rvCuaca;
     private WebView webViewMaps;
@@ -44,6 +50,7 @@ public class CuacaActivity extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_CODE = 100;
     private static final String API_KEY = "2fc1bfc247e80a7678b8b6b0f2e00aaa";
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +59,7 @@ public class CuacaActivity extends AppCompatActivity {
         etKota = findViewById(R.id.etKota);
         btnTampilkan = findViewById(R.id.btnTampilkan);
         btnBack = findViewById(R.id.btnBack);
-        headerLayout = findViewById(R.id.headerLayout);
+        LinearLayout headerLayout = findViewById(R.id.headerLayout);
         tvInfoKota = findViewById(R.id.tvInfoKota);
         tvTotalRecord = findViewById(R.id.tvTotalRecord);
         rvCuaca = findViewById(R.id.rvCuaca);
@@ -89,13 +96,15 @@ public class CuacaActivity extends AppCompatActivity {
             }
         });
 
-        headerLayout.setOnClickListener(v -> {
-            if (lat != 0 && lon != 0) {
-                showMaps();
-            } else {
-                Toast.makeText(this, "Tunggu hingga data kota tersedia", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (headerLayout != null) {
+            headerLayout.setOnClickListener(v -> {
+                if (lat != 0 && lon != 0) {
+                    showMaps();
+                } else {
+                    Toast.makeText(this, "Tunggu hingga data kota tersedia", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         btnBack.setOnClickListener(v -> showListCuaca());
     }
@@ -179,29 +188,24 @@ public class CuacaActivity extends AppCompatActivity {
                     long sunrise = city.getLong("sunrise");
                     long sunset = city.getLong("sunset");
 
-                    // ==========================================================
-                    // MENYIMPAN DATA UNTUK WIDGET
-                    // ==========================================================
-                    android.content.SharedPreferences prefs = getSharedPreferences("WeatherPrefs", MODE_PRIVATE);
+                    SharedPreferences prefs = getSharedPreferences("WeatherPrefs", MODE_PRIVATE);
                     prefs.edit().putString("LAST_LAT", String.valueOf(lat))
                             .putString("LAST_LON", String.valueOf(lon))
                             .putString("LAST_CITY", name)
                             .apply();
 
-                    // Memicu Widget untuk langsung memperbarui tampilannya
-                    android.content.Intent intent = new android.content.Intent(CuacaActivity.this, WeatherWidgetProvider.class);
-                    intent.setAction(android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-                    int[] ids = android.appwidget.AppWidgetManager.getInstance(getApplication())
-                            .getAppWidgetIds(new android.content.ComponentName(getApplication(), WeatherWidgetProvider.class));
-                    intent.putExtra(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+                    Intent intent = new Intent(CuacaActivity.this, WeatherWidgetProvider.class);
+                    intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+                    int[] ids = AppWidgetManager.getInstance(getApplication())
+                            .getAppWidgetIds(new ComponentName(getApplication(), WeatherWidgetProvider.class));
+                    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
                     sendBroadcast(intent);
-                    // ==========================================================
 
-                    // ---> MEMICU POP-UP PEMASANGAN WIDGET OTOMATIS <---
                     mintaPasangWidgetOtomatis();
 
                     etKota.setText(name);
-                    tvInfoKota.setText("KOTA: " + name.toUpperCase() + "\nMATAHARI TERBIT: " + formatWaktu(sunrise) + " (LOKAL)\nMATAHARI TERBENAM: " + formatWaktu(sunset) + " (LOKAL)");
+                    tvInfoKota.setText(getString(R.string.weather_info_format, 
+                        name.toUpperCase(), formatWaktu(sunrise), formatWaktu(sunset)));
 
                     List<WeatherItem> listCuaca = new ArrayList<>();
                     JSONArray list = response.getJSONArray("list");
@@ -227,11 +231,12 @@ public class CuacaActivity extends AppCompatActivity {
 
                     WeatherAdapter adapter = new WeatherAdapter(CuacaActivity.this, listCuaca);
                     rvCuaca.setAdapter(adapter);
-                    tvTotalRecord.setText("Total Record : " + listCuaca.size());
+                    String totalRecordText = "Total Record : " + listCuaca.size();
+                    tvTotalRecord.setText(totalRecordText);
                     showListCuaca();
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Log.e("CuacaActivity", "Error parsing weather data", e);
                 } finally {
                     swipeRefresh.setRefreshing(false);
                 }
@@ -249,26 +254,18 @@ public class CuacaActivity extends AppCompatActivity {
         return new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date(timestamp * 1000));
     }
 
-    // ==========================================================
-    // FITUR AUTO-PIN WIDGET UNTUK ANDROID 8.0 KE ATAS
-    // ==========================================================
     private void mintaPasangWidgetOtomatis() {
-        android.content.SharedPreferences prefs = getSharedPreferences("WeatherPrefs", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("WeatherPrefs", MODE_PRIVATE);
         boolean sudahPernahDitanya = prefs.getBoolean("SUDAH_DITAWARKAN_WIDGET", false);
 
-        // Jika sudah pernah ditawarkan, jangan munculkan pop-up lagi
         if (sudahPernahDitanya) return;
 
-        // Memeriksa versi Android (hanya berlaku untuk Android 8.0 Oreo ke atas)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            android.appwidget.AppWidgetManager appWidgetManager = getSystemService(android.appwidget.AppWidgetManager.class);
-            android.content.ComponentName myProvider = new android.content.ComponentName(this, WeatherWidgetProvider.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AppWidgetManager appWidgetManager = getSystemService(AppWidgetManager.class);
+            ComponentName myProvider = new ComponentName(this, WeatherWidgetProvider.class);
 
-            // Jika perangkat mendukung fitur ini, tampilkan dialog pemasangan otomatis
             if (appWidgetManager != null && appWidgetManager.isRequestPinAppWidgetSupported()) {
                 appWidgetManager.requestPinAppWidget(myProvider, null, null);
-
-                // Tandai bahwa user sudah mendapat pop-up ini
                 prefs.edit().putBoolean("SUDAH_DITAWARKAN_WIDGET", true).apply();
             }
         }

@@ -21,16 +21,14 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 
-// ==========================================
-// TAMBAHAN: Import untuk memproses JSON
-// ==========================================
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText etId, etPassword;
-    private AppCompatButton btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,59 +45,44 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        // Inisialisasi komponen form login sesuai XML Anda
         etId = findViewById(R.id.etId);
         etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);
+        AppCompatButton btnLogin = findViewById(R.id.btnLogin);
 
-        // Aksi ketika tombol Login ditekan
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (btnLogin != null) {
+            btnLogin.setOnClickListener(v -> {
                 String idInput = etId.getText().toString().trim();
                 String passInput = etPassword.getText().toString().trim();
 
-                // Validasi agar tidak mengirim data kosong ke API
                 if (idInput.isEmpty() || passInput.isEmpty()) {
-                    Toast.makeText(MainActivity.this, "ID dan Password tidak boleh kosong!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, getString(R.string.login_empty), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                // 1. Merakit URL
                 String url = "https://stmikpontianak.cloud/011100862/login.php?id=" + idInput + "&password=" + passInput;
                 Log.d("*tw*", "_url: " + url);
 
-
-                // 2. Eksekusi request API
                 AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
                 asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        // Menangkap hasil dari server PHP
                         String hasil = new String(responseBody).trim();
                         Log.d("*tw*", "hasil: " + hasil);
 
                         try {
-                            // 1. Karena hasil berupa JSON Array [ ... ], kita bongkar dulu
                             JSONArray jsonArray = new JSONArray(hasil);
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-                            // 2. Ambil nilai "idCount" di dalamnya
                             String idCount = jsonObject.getString("idCount");
 
-                            // 3. Validasi ketat: HANYA boleh lolos jika idCount bernilai "1"
-                            if (idCount.equals("1")) {
-                                // --- JIKA API MERESPON SUKSES (Data Cocok) ---
-
-                                // Merakit Custom Toast Notifikasi
+                            if (Objects.equals(idCount, "1")) {
                                 LayoutInflater inflater = getLayoutInflater();
                                 View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.custom_toast_container));
 
                                 TextView text = layout.findViewById(R.id.tvToastText);
                                 if (text != null) {
-                                    // PERBAIKAN: Mengubah _id menjadi idInput sesuai variabel Anda di atas
-                                    text.setText("Selamat Datang, " + idInput);
+                                    text.setText(getString(R.string.welcome_user, idInput));
                                 }
 
                                 Toast toast = new Toast(getApplicationContext());
@@ -108,33 +91,28 @@ public class MainActivity extends AppCompatActivity {
                                 toast.setView(layout);
                                 toast.show();
 
-                                // Berpindah halaman menuju DashboardActivity
                                 Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-                                // PERBAIKAN: Mengubah _id menjadi idInput
                                 intent.putExtra("KEY_USER", idInput);
                                 startActivity(intent);
                                 finish();
 
                             } else {
-                                // --- JIKA idCount BERNILAI "0" (Username/Password Salah) ---
-                                Toast.makeText(MainActivity.this, "Username atau Password salah!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
                             }
 
                         } catch (Exception e) {
-                            // Mengantisipasi jika terjadi error format data
                             Log.e("*tw*", "Gagal membaca JSON", e);
-                            Toast.makeText(MainActivity.this, "Format data server salah!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, getString(R.string.server_error), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                        // Menangkap error jika server down atau internet mati
-                        Toast.makeText(MainActivity.this, "Koneksi ke server gagal: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, getString(R.string.connection_failed, error.getMessage()), Toast.LENGTH_SHORT).show();
                         Log.e("*tw*", "Error API: ", error);
                     }
                 });
-            }
-        });
+            });
+        }
     }
 }
